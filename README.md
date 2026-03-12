@@ -20,7 +20,6 @@
 6. [Part 2 — Exploratory Data Analysis](#6-part-2--exploratory-data-analysis)
 7. [Part 3 — Tableau Dashboard](#7-part-5--tableau-dashboard)
 8. [Key Findings & Insights](#8-key-findings--insights)
-9. [Repository Structure](#9-repository-structure)
 
 ---
 
