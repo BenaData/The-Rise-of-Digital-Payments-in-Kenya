@@ -1,4 +1,4 @@
-# 🇰🇪 The Rise of Digital Payments in Kenya
+# The Rise of Digital Payments in Kenya
 ### An End-to-End Data Analysis of Mobile Money & Card Transactions (2007–2026)
 
 **Author:** Benard Musyoka Mwinzi &nbsp;|&nbsp; **Date:** March 2026 &nbsp;|&nbsp; **Data Source:** Central Bank of Kenya (CBK)
@@ -16,31 +16,27 @@
 2. [Project Objectives](#2-project-objectives)
 3. [Datasets](#3-datasets)
 4. [Tools & Technologies](#4-tools--technologies)
-5. [Project Architecture](#5-project-architecture)
-6. [Part 1 — Data Cleaning & Feature Engineering](#6-part-1--data-cleaning--feature-engineering)
-7. [Part 2 — Exploratory Data Analysis](#7-part-2--exploratory-data-analysis)
-8. [Part 3 — Forecasting](#8-part-3--forecasting)
-9. [Part 4 — SQL Analytics](#9-part-4--sql-analytics)
-10. [Part 5 — Tableau Dashboard](#10-part-5--tableau-dashboard)
-11. [Key Findings & Insights](#11-key-findings--insights)
-12. [Repository Structure](#12-repository-structure)
+5. [Part 1 —Data Cleaning & Feature Engineering](#5-part-1--data-cleaning--feature-engineering)
+6. [Part 2 — Exploratory Data Analysis](#6-part-2--exploratory-data-analysis)
+7. [Part 3 — Tableau Dashboard](#7-part-5--tableau-dashboard)
+8. [Key Findings & Insights](#8-key-findings--insights)
+9. [Repository Structure](#9-repository-structure)
 
 ---
 
 ## 1. Business Problem
 
-Kenya is one of the world's most closely studied success stories in financial inclusion. The launch of M-Pesa in 2007 fundamentally transformed how millions of Kenyans access financial services — enabling peer-to-peer transfers, bill payments, and savings through a basic mobile phone.
+Kenya is one of the world's most closely studied success stories in financial inclusion. The launch of M-Pesa in 2007 fundamentally transformed how millions of Kenyans access financial services. M-Pesa enables peer-to-peer transfers, bill payments, and savings through a basic mobile phone.
 
-Yet despite this transformation, there had been **no consolidated analytical view** of how the two dominant digital payment channels — mobile money and card transactions — have evolved together over nearly two decades. Specifically, the following questions remained unanswered:
+However, despite this transformation, there had been **no consolidated analytical view** of how the two dominant digital payment channels, mobile money and card transactions, have evolved together over nearly two decades. Specifically, the following questions remained unanswered:
 
 - How fast has Kenya's mobile money ecosystem actually grown, and what is its current scale?
 - Are card transactions growing too, or is mobile money cannibalising card usage?
 - How did COVID-19 and the CBK fee waiver affect each payment channel differently?
 - Is Kenya genuinely moving away from cash, or are ATM withdrawals still dominant?
 - Which months drive peak payment volumes, and how consistent is the seasonality?
-- Where are both channels headed in the next 24 months?
 
-These are not academic questions. They have direct implications for financial institutions, payment infrastructure providers, regulators, and any business that needs to understand where and how Kenyan consumers transact.
+Answering these questions can have direct implications for financial institutions, payment infrastructure providers, regulators, and any business that needs to understand where and how Kenyan consumers transact.
 
 ---
 
@@ -51,15 +47,14 @@ This project delivers an end-to-end analysis that:
 1. **Cleans and consolidates** 18+ years of CBK payments data into a single analysis-ready dataset
 2. **Uncovers trends and patterns** across mobile money and card transaction channels
 3. **Quantifies the COVID-19 effect** on each channel using a structured comparison framework
-4. **Forecasts 24 months** of future transaction volumes using machine learning
-5. **Answers business questions** through 10 purpose-built SQL analytical queries
-6. **Communicates findings** through an interactive Tableau Public dashboard accessible to both technical and non-technical audiences
+4. **Answers business questions** through 10 purpose-built SQL analytical queries
+5. **Communicates findings** through an interactive Tableau Public dashboard accessible to both technical and non-technical audiences
 
 ---
 
 ## 3. Datasets
 
-Both datasets were sourced directly from the **Central Bank of Kenya (CBK) National Payments System Statistics** — the official regulator and sole publisher of this data.
+Both datasets were sourced directly from the **Central Bank of Kenya (CBK) National Payments System Statistics.** CBK is the official regulator and sole publisher of this data.
 
 | Dataset | Period | Rows | Key Variables |
 |---|---|---|---|
@@ -76,54 +71,12 @@ Both datasets were sourced directly from the **Central Bank of Kenya (CBK) Natio
 |---|---|
 | **Python (pandas, numpy)** | Data loading, cleaning, feature engineering, merging |
 | **Matplotlib, Seaborn** | Exploratory data visualisation (8 analytical charts) |
-| **Scikit-learn** | Polynomial regression forecasting model |
-| **MySQL** | Relational database storage and analytical querying |
-| **Tableau Public** | Interactive dashboard for business communication |
+| **Tableau** | Interactive dashboard for business communication |
 | **Jupyter Notebooks** | Documented, reproducible analysis workflow |
 
 ---
 
-## 5. Project Architecture
-
-```
-Raw CBK Data (2 CSVs)
-        │
-        ▼
-┌─────────────────────────┐
-│  Notebook 1             │
-│  Data Cleaning &        │  → 3 clean CSVs (mobile, cards, merged)
-│  Feature Engineering    │
-└─────────────────────────┘
-        │
-        ▼
-┌─────────────────────────┐
-│  Notebook 2             │
-│  Exploratory Data       │  → 8 analytical charts & summary findings
-│  Analysis               │
-└─────────────────────────┘
-        │
-        ▼
-┌─────────────────────────┐
-│  Notebook 3             │
-│  Forecasting            │  → 24-month forecasts with confidence intervals
-└─────────────────────────┘
-        │
-        ▼
-┌─────────────────────────┐
-│  MySQL Loader Script    │
-│  + SQL Queries          │  → 3 database tables, 10 analytical queries
-└─────────────────────────┘
-        │
-        ▼
-┌─────────────────────────┐
-│  Tableau Public         │
-│  Dashboard              │  → 6 interactive sheets, live at Tableau Public
-└─────────────────────────┘
-```
-
----
-
-## 6. Part 1 — Data Cleaning & Feature Engineering
+## 5. Part 1 — Data Cleaning & Feature Engineering
 
 **Notebook:** `Digital_Payments_Data_Cleaning.ipynb`
 
@@ -164,22 +117,9 @@ Six derived features were created to enable richer analysis:
 | `covid_period` | `date between 2020-03-01 and 2020-09-30` | Boolean flag for the CBK fee waiver period |
 | `card_data_available` | `total_card_transactions is not null` | Identifies the 28 mobile-only rows before card data starts (pre-Jul 2009) |
 
-### Merge Strategy
-
-The two datasets were merged using an **outer join on the date field**, preserving all 227 rows of mobile data while appending card columns where available. The 28 mobile-only rows (Mar 2007 – Jun 2009) contain nulls in all card columns — handled correctly throughout all subsequent analysis.
-
-### Output
-
-```
-✅ Clean files exported:
-   cleaned_mobile.csv   → 227 rows × 10 columns
-   cleaned_cards.csv    → 199 rows × 13 columns
-   cleaned_merged.csv   → 227 rows × 22 columns
-```
-
 ---
 
-## 7. Part 2 — Exploratory Data Analysis
+## 6. Part 2 — Exploratory Data Analysis
 
 **Notebook:** `Digital_Payments_EDA_Visualizations.ipynb`
 
@@ -189,6 +129,8 @@ Eight analytical charts were produced, each designed to answer a specific busine
 
 **Question:** How fast have mobile money accounts and the agent network grown since 2007?
 
+<img width="1290" height="490" alt="image" src="https://github.com/user-attachments/assets/c2af03dd-09ad-40ec-acc8-e2e868e43ae0" />
+
 **Finding:** Registered accounts and active agents have grown in near-perfect lockstep throughout the entire period — confirming that agent network expansion is the primary driver of account adoption. The COVID-19 fee waiver in March 2020 produced a visible acceleration in account registrations as more Kenyans adopted mobile money for the first time to avoid handling physical cash.
 
 ---
@@ -196,6 +138,8 @@ Eight analytical charts were produced, each designed to answer a specific busine
 ### Chart 2 — Mobile Money Transaction Volume & Value
 
 **Question:** What is the monetary scale of Kenya's mobile money ecosystem?
+
+<img width="1289" height="813" alt="image" src="https://github.com/user-attachments/assets/56d3279f-d56b-4eff-9122-a515fafcb69c" />
 
 **Finding:** Monthly transaction volume grew from under 0.5 million in 2007 to over 215 million in 2026 — a **500× increase over 18 years**. The value of these transactions grew even faster in relative terms, reflecting rising average transaction sizes as M-Pesa expanded beyond small peer-to-peer transfers into bill payments, business transactions, and government disbursements.
 
@@ -205,6 +149,8 @@ Eight analytical charts were produced, each designed to answer a specific busine
 
 **Question:** How is the composition of card usage changing over time?
 
+<img width="1289" height="490" alt="image" src="https://github.com/user-attachments/assets/e993fc5c-e70d-4267-81bd-1b96fe32260f" />
+
 **Finding:** In 2009, ATM cash withdrawals dominated card usage almost entirely. Over the subsequent 16 years, POS transactions grew dramatically both in absolute volume and as a share of total card transactions. By 2024, POS accounted for over 40% of all card transactions — a structural shift away from using cards purely as cash-access tools toward using them as payment instruments at the point of sale.
 
 ---
@@ -213,6 +159,8 @@ Eight analytical charts were produced, each designed to answer a specific busine
 
 **Question:** Is Kenya genuinely moving away from cash?
 
+<img width="1289" height="490" alt="image" src="https://github.com/user-attachments/assets/3379d20d-414c-4d38-9427-335317832c1d" />
+
 **Finding:** The POS share of card transactions rose from approximately 4–8% in 2009 to 42%+ by 2024 — an upward trend that has been consistent across all economic conditions including the COVID-19 period. This is one of the strongest indicators of financial deepening in the dataset: Kenyans are increasingly using cards to pay for goods and services rather than to withdraw cash.
 
 ---
@@ -220,6 +168,8 @@ Eight analytical charts were produced, each designed to answer a specific busine
 ### Chart 5 — COVID-19 Impact (2019–2022 Zoom)
 
 **Question:** How did the pandemic affect each payment channel?
+
+<img width="1287" height="813" alt="image" src="https://github.com/user-attachments/assets/310f05ae-5124-441c-8dd4-d0e0eb47e6e1" />
 
 **Finding:** The pandemic produced **sharply divergent effects** on the two channels:
 
@@ -234,6 +184,9 @@ This divergence is one of the most analytically significant findings of the proj
 
 **Question:** Which months drive peak payment volumes?
 
+<img width="1389" height="495" alt="image" src="https://github.com/user-attachments/assets/d3fc7027-e968-4563-91a2-1a5ffe0e816d" />
+
+
 **Finding:** Both channels show a clear and consistent **December peak**, driven by festive spending, salary bonuses, school-related transactions, and end-of-year business settlements. January and February are consistently the slowest months across both channels and across all years — a pattern that has remained stable since 2009.
 
 ---
@@ -242,6 +195,8 @@ This divergence is one of the most analytically significant findings of the proj
 
 **Question:** When did growth accelerate, stabilise, or decline?
 
+<img width="1289" height="812" alt="image" src="https://github.com/user-attachments/assets/e37dbb5a-c64b-4268-b4eb-c7ae5d208bce" />
+
 **Finding:** Mobile money showed explosive early growth (2007–2012) driven by rapid adoption from a near-zero base. Card transactions grew more steadily throughout the period. Both channels show the COVID dip in 2020 followed by strong recovery. Mobile money growth has moderated from its explosive early rates but remains consistently positive — suggesting a maturing but still-expanding ecosystem.
 
 ---
@@ -249,6 +204,8 @@ This divergence is one of the most analytically significant findings of the proj
 ### Chart 8 — Correlation Heatmap
 
 **Question:** How are the key payment metrics related to each other?
+
+<img width="848" height="690" alt="image" src="https://github.com/user-attachments/assets/1887ee2c-1baa-4d01-a46e-a6b4010305bc" />
 
 **Finding:** Mobile money volume, registered accounts, and active agents are all correlated at above 0.99 with each other — confirming that these three metrics effectively move as one system. Card transactions show moderate correlation with mobile metrics, reflecting that both channels are growing but driven by fundamentally different forces (agent network expansion vs. merchant infrastructure investment).
 
@@ -264,69 +221,11 @@ This divergence is one of the most analytically significant findings of the proj
 
 ---
 
-## 8. Part 3 — Forecasting
-
-**Notebook:** `Notebook_03_Forecasting.ipynb`
-
-### Methodology
-
-A supervised machine learning approach was used to forecast 24 months of future transaction volumes for four metrics: mobile transaction volume, registered accounts, total card transactions, and POS transactions.
-
-**Model:** Polynomial Regression (degree = 3) combined with seasonal encoding
-
-**Features used:**
-- Time index (months since start)
-- Sine and cosine encoding of month-of-year (captures 12-month seasonality)
-- COVID binary flag (Mar–Sep 2020)
-- Polynomial interactions between features
-
-**Train/test split:** Last 12 months held out as a holdout evaluation set
-
-### Model Performance
-
-| Metric | Mobile Volume | Registered Accounts | Card Transactions | POS Transactions |
-|---|---|---|---|---|
-| MAPE (holdout) | **2.14%** | 1.87% | 53.14% | 48.32% |
-| R² (holdout) | 0.97 | 0.98 | 0.61 | 0.58 |
-
-The mobile money forecasts achieved excellent accuracy (MAPE of 2.14%) due to the strong and consistent trend structure of the series. Card transaction forecasts are less precise due to higher month-to-month volatility and the structural disruption caused by COVID-19, which the polynomial model cannot fully capture.
-
-### Forecast Outputs
-
-All forecasts include ±1.5 × residual standard deviation confidence intervals. Forecast CSVs were exported for integration into the Tableau dashboard.
-
----
-
-## 9. Part 4 — SQL Analytics
-
-**Script:** `05_analytical_queries.sql`
-
-Ten SQL queries were written against the `kenya_payments` MySQL database to answer specific business questions using window functions, CTEs, and aggregations.
-
-| Query | Type | Business Question |
-|---|---|---|
-| 1. Monthly snapshot | Basic aggregation | What are the latest mobile and card volumes? |
-| 2. YoY growth | Window function (`LAG`) | How does growth compare year on year? |
-| 3. COVID comparison | CASE + GROUP BY | What was the average impact of COVID on each channel? |
-| 4. POS share trend | Rolling average | Is POS share consistently rising? |
-| 5. Seasonality index | GROUP BY month | Which months are above average? |
-| 6. Agent efficiency | Ratio calculation | How has agent productivity changed over time? |
-| 7. Mobile milestones | Subquery | When did mobile money cross key volume thresholds? |
-| 8. Card composition | PIVOT-style | What share does each card type hold at ATMs? |
-| 9. Volatility analysis | STDDEV window | Which periods had the most erratic growth? |
-| 10. Growth index | CTE + ratio | How do mobile and card growth compare from a common base? |
-
----
-
-## 10. Part 5 — Tableau Dashboard
+## 7. Part 5 — Tableau Dashboard
 
 **Live Dashboard:** [View on Tableau Public](https://public.tableau.com/app/profile/benard.mwinzi/viz/DigitalPaymentsDashboard/Dashboard)
 
 The interactive dashboard consolidates all analytical findings into a single view accessible to non-technical stakeholders.
-
-### Dashboard Preview
-
-![Kenya Digital Payments Dashboard](Dashboard__1_.png)
 
 ### Dashboard Features
 
@@ -354,7 +253,7 @@ The interactive dashboard consolidates all analytical findings into a single vie
 
 ---
 
-## 11. Key Findings & Insights
+## 8. Key Findings & Insights
 
 ### Finding 1 — Mobile Money Has Grown 500× Since 2007
 Monthly transaction volume rose from 0.02 million in March 2007 to over 215 million by January 2026. This is not incremental growth — it represents a fundamental transformation of how Kenyans transact. The growth has been driven by three mutually reinforcing forces: agent network expansion, rising smartphone penetration, and deliberate regulatory support from the CBK.
@@ -376,52 +275,6 @@ Across every year from 2007 to 2026, December is the highest-volume month for bo
 
 ---
 
-## 12. Repository Structure
-
-```
-kenya-digital-payments/
-│
-├── data/
-│   ├── raw/
-│   │   ├── Mobile_Payments.csv
-│   │   └── Number_of_Transactions.csv
-│   ├── clean/
-│   │   ├── cleaned_mobile.csv
-│   │   ├── cleaned_cards.csv
-│   │   └── cleaned_merged.csv
-│   └── outputs/
-│       ├── forecasts/
-│       │   ├── mobile_money_volume_forecast.csv
-│       │   ├── registered_accounts_forecast.csv
-│       │   ├── total_card_transactions_forecast.csv
-│       │   └── pos_transactions_forecast.csv
-│       └── charts/
-│           ├── 01_mobile_growth_accounts_agents.png
-│           ├── 02_mobile_volume_value_trends.png
-│           ├── 03_card_composition_pos_vs_atm.png
-│           ├── 04_pos_share_trend.png
-│           ├── 05_covid_impact.png
-│           ├── 06_seasonality.png
-│           ├── 07_yoy_growth_rates.png
-│           └── 08_correlation_heatmap.png
-│
-├── notebooks/
-│   ├── Digital_Payments_Data_Cleaning.ipynb
-│   ├── Digital_Payments_EDA_Visualizations.ipynb
-│   └── Notebook_03_Forecasting.ipynb
-│
-├── sql/
-│   ├── 04_mysql_loader.py
-│   └── 05_analytical_queries.sql
-│
-├── dashboard/
-│   └── Dashboard_Preview.png
-│
-└── README.md
-```
-
----
-
 ## Skills Demonstrated
 
 | Skill Area | Specific Techniques Used |
@@ -429,8 +282,6 @@ kenya-digital-payments/
 | **Data Wrangling** | Multi-dataset merge, type conversion, null handling, snake_case standardisation |
 | **Feature Engineering** | Ratio features, growth rates, binary flags, date decomposition |
 | **Exploratory Analysis** | Time series analysis, correlation matrices, seasonality decomposition, YoY growth |
-| **Statistical Modelling** | Polynomial regression, seasonal encoding (sin/cos), holdout evaluation, MAPE/R² |
-| **SQL** | Window functions (LAG, STDDEV), CTEs, CASE statements, GROUP BY aggregation |
 | **Data Visualisation** | Dual-axis charts, stacked areas, heatmaps, growth indices, annotated time series |
 | **Dashboard Design** | KPI tiles, interactive filters, cross-sheet actions, dark theme, CBK branding |
 | **Business Communication** | Finding-first structure, plain-English insights, stakeholder-ready dashboard |
